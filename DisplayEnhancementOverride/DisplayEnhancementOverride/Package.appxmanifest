@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="DisplayEnhancementOverride" Publisher="CN=wensh" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="d020aae0-3a71-46e0-9b99-c8d20f0e060c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="60431BluBambu.DisplayEnhancementOverride" Publisher="CN=B4F7D548-A09C-41E9-8303-D77A4CE7904D" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="4c2f35cd-bf2a-4356-b945-2bd7eb64bc53" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Display Enhancement Override</DisplayName>
     <PublisherDisplayName>BluBambu</PublisherDisplayName>

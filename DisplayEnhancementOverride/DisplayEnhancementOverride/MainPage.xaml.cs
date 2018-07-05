@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Core;
 
 namespace DisplayEnhancementOverride
 {
@@ -28,18 +29,27 @@ namespace DisplayEnhancementOverride
 
         private void Deo_DisplayEnhancementOverrideCapabilitiesChanged(DisplayEnhancementOverride sender, DisplayEnhancementOverrideCapabilitiesChangedEventArgs args)
         {
-            BrightnessPercentageSupportedStateTextBlock.Text = args.Capabilities.IsBrightnessControlSupported ? "Yes" : "No";
-            BrightnessNitsSupportedStateTextBlock.Text = args.Capabilities.IsBrightnessNitsControlSupported ? "Yes" : "No";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BrightnessPercentageSupportedStateTextBlock.Text = args.Capabilities.IsBrightnessControlSupported ? "Yes" : "No";
+                BrightnessNitsSupportedStateTextBlock.Text = args.Capabilities.IsBrightnessNitsControlSupported ? "Yes" : "No";
+            }); 
         }
 
         private void Deo_CanOverrideChanged(DisplayEnhancementOverride sender, object args)
         {
-            CanOverrideActiveStateTextBlock.Text = sender.CanOverride ? "Yes" : "No";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                CanOverrideActiveStateTextBlock.Text = sender.CanOverride ? "Yes" : "No";
+            });
         }
 
         private void Deo_IsOverrideActiveChanged(DisplayEnhancementOverride sender, object args)
         {
-            IsOverrideActiveStateTextBlock.Text = sender.IsOverrideActive ? "Yes" : "No";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                IsOverrideActiveStateTextBlock.Text = sender.IsOverrideActive ? "Yes" : "No";
+            });
         }
 
         #endregion // DEO Callbacks
@@ -48,14 +58,22 @@ namespace DisplayEnhancementOverride
 
         private void SetBrightnessPercentage(double level)
         {
-            BrightnessSettingStateTextBlock.Text = level + "%";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BrightnessSettingStateTextBlock.Text = level + "%";
+            });
+
             deo.BrightnessOverrideSettings = BrightnessOverrideSettings.CreateFromLevel(level / 100);
             CheckOverrideToggleEnableState();
         }
 
         private void SetBrightnessNits(float nits)
         {
-            BrightnessSettingStateTextBlock.Text = nits + " nits";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BrightnessSettingStateTextBlock.Text = nits + " nits";
+            });
+
             deo.BrightnessOverrideSettings = BrightnessOverrideSettings.CreateFromNits(nits);
             CheckOverrideToggleEnableState();
         }
@@ -76,14 +94,22 @@ namespace DisplayEnhancementOverride
                     break;
             }
 
-            BrightnessSettingStateTextBlock.Text = scenarioText;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BrightnessSettingStateTextBlock.Text = scenarioText;
+            });
+
             deo.BrightnessOverrideSettings = BrightnessOverrideSettings.CreateFromDisplayBrightnessOverrideScenario(scenario);
             CheckOverrideToggleEnableState();
         }
 
         private void SetNoBrightnessSettings()
         {
-            BrightnessSettingStateTextBlock.Text = "None";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BrightnessSettingStateTextBlock.Text = "None";
+            });
+
             deo.BrightnessOverrideSettings = null;
             CheckOverrideToggleEnableState();
         }
@@ -102,14 +128,22 @@ namespace DisplayEnhancementOverride
                     break;
             }
 
-            ColorSettingStateTextBlock.Text = scenarioText;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ColorSettingStateTextBlock.Text = scenarioText;
+            });
+
             deo.ColorOverrideSettings = ColorOverrideSettings.CreateFromDisplayColorOverrideScenario(DisplayColorOverrideScenario.Accurate);
             CheckOverrideToggleEnableState();
         }
 
         private void SetNoColorScenario()
         {
-            ColorSettingStateTextBlock.Text = "None";
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ColorSettingStateTextBlock.Text = "None";
+            });
+
             deo.ColorOverrideSettings = null;
             CheckOverrideToggleEnableState();
         }
@@ -164,16 +198,23 @@ namespace DisplayEnhancementOverride
 
         private void CheckOverrideToggleEnableState()
         {
+            string debuggerText = "";
+
             if (((deo.ColorOverrideSettings != null) || (deo.BrightnessOverrideSettings != null)))
             {
-                DebugTextBlock.Text = "";
+                debuggerText = "";
                 OverrideToggle.IsEnabled = true;
             }
             else if (!OverrideToggle.IsOn)
             {
-                DebugTextBlock.Text = "Please select a brightness or color setting before requesting an override";
+                debuggerText = "Please select a brightness or color setting before requesting an override";
                 OverrideToggle.IsEnabled = false;
             }
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                DebugTextBlock.Text = debuggerText;
+            });
         }
 
         private void OverrideToggle_Toggled(object sender, RoutedEventArgs e)
